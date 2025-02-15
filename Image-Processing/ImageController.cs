@@ -70,6 +70,41 @@ namespace Image_Processing
             DibujarHistograma(HistogramBoxRed, histR, Color.Red);
             DibujarHistograma(HistogramBoxGreen, histG, Color.Green);
             DibujarHistograma(HistogramBoxBlue, histB, Color.Blue);
+
+            DibujarHistogramaGeneral(HistogramBoxGeneral, histR, histG, histB);
+        }
+
+        private void DibujarHistogramaGeneral(PictureBox pictureBox, int[] histR, int[] histG, int[] histB)
+        {
+            int width = pictureBox.Width;
+            int height = pictureBox.Height;
+            Bitmap histImage = new Bitmap(width, height);
+            Graphics g = Graphics.FromImage(histImage);
+            g.Clear(Color.White);
+
+            // Encontrar la frecuencia máxima de los tres histogramas para normalizar
+            int maxFrecuencia = Math.Max(Math.Max(histR.Max(), histG.Max()), histB.Max());
+            if (maxFrecuencia == 0) return;
+
+            // Escalar el ancho de cada barra al tamaño del PictureBox
+            float barWidth = width / 256f;
+
+            for (int i = 0; i < 256; i++)
+            {
+                // Normalizar la altura para cada canal
+                int barHeightR = (int)((histR[i] / (float)maxFrecuencia) * (height - 5));
+                int barHeightG = (int)((histG[i] / (float)maxFrecuencia) * (height - 5));
+                int barHeightB = (int)((histB[i] / (float)maxFrecuencia) * (height - 5));
+
+                int xPos = (int)(i * barWidth);
+
+                // Dibujar barras con colores diferentes para cada canal
+                g.FillRectangle(new SolidBrush(Color.Red), xPos, height - barHeightR, barWidth, barHeightR);
+                g.FillRectangle(new SolidBrush(Color.Green), xPos, height - barHeightG, barWidth, barHeightG);
+                g.FillRectangle(new SolidBrush(Color.Blue), xPos, height - barHeightB, barWidth, barHeightB);
+            }
+
+            pictureBox.Image = histImage;
         }
 
         // Método para dibujar el histograma
