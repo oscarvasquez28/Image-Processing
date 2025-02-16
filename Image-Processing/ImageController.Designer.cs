@@ -48,25 +48,28 @@
             this.ImageBox.BackgroundImage = global::Image_Processing.Properties.Resources.error_404;
             this.ImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBox.Location = new System.Drawing.Point(0, 0);
+            this.ImageBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ImageBox.Name = "ImageBox";
-            this.ImageBox.Size = new System.Drawing.Size(526, 363);
+            this.ImageBox.Size = new System.Drawing.Size(468, 290);
             this.ImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImageBox.TabIndex = 0;
             this.ImageBox.TabStop = false;
             // 
             // HistogramBoxRed
             // 
-            this.HistogramBoxRed.Location = new System.Drawing.Point(543, 0);
+            this.HistogramBoxRed.Location = new System.Drawing.Point(483, 0);
+            this.HistogramBoxRed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HistogramBoxRed.Name = "HistogramBoxRed";
-            this.HistogramBoxRed.Size = new System.Drawing.Size(225, 177);
+            this.HistogramBoxRed.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxRed.TabIndex = 1;
             this.HistogramBoxRed.TabStop = false;
             // 
             // UploadImage
             // 
-            this.UploadImage.Location = new System.Drawing.Point(132, 409);
+            this.UploadImage.Location = new System.Drawing.Point(117, 327);
+            this.UploadImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UploadImage.Name = "UploadImage";
-            this.UploadImage.Size = new System.Drawing.Size(168, 63);
+            this.UploadImage.Size = new System.Drawing.Size(149, 50);
             this.UploadImage.TabIndex = 2;
             this.UploadImage.Text = "Cargar Imagen";
             this.UploadImage.UseVisualStyleBackColor = true;
@@ -74,9 +77,10 @@
             // 
             // ResetImage
             // 
-            this.ResetImage.Location = new System.Drawing.Point(670, 409);
+            this.ResetImage.Location = new System.Drawing.Point(596, 327);
+            this.ResetImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ResetImage.Name = "ResetImage";
-            this.ResetImage.Size = new System.Drawing.Size(168, 63);
+            this.ResetImage.Size = new System.Drawing.Size(149, 50);
             this.ResetImage.TabIndex = 3;
             this.ResetImage.Text = "Reiniciar Imagen";
             this.ResetImage.UseVisualStyleBackColor = true;
@@ -84,28 +88,28 @@
             // 
             // HistogramBoxGreen
             // 
-            this.HistogramBoxGreen.Location = new System.Drawing.Point(776, 0);
-            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.HistogramBoxGreen.Location = new System.Drawing.Point(690, 0);
+            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.HistogramBoxGreen.Name = "HistogramBoxGreen";
-            this.HistogramBoxGreen.Size = new System.Drawing.Size(225, 177);
+            this.HistogramBoxGreen.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxGreen.TabIndex = 4;
             this.HistogramBoxGreen.TabStop = false;
             // 
             // HistogramBoxBlue
             // 
-            this.HistogramBoxBlue.Location = new System.Drawing.Point(776, 186);
-            this.HistogramBoxBlue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.HistogramBoxBlue.Location = new System.Drawing.Point(690, 149);
+            this.HistogramBoxBlue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.HistogramBoxBlue.Name = "HistogramBoxBlue";
-            this.HistogramBoxBlue.Size = new System.Drawing.Size(225, 177);
+            this.HistogramBoxBlue.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxBlue.TabIndex = 5;
             this.HistogramBoxBlue.TabStop = false;
             // 
             // SaveImage
             // 
-            this.SaveImage.Location = new System.Drawing.Point(402, 409);
-            this.SaveImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SaveImage.Location = new System.Drawing.Point(357, 327);
+            this.SaveImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SaveImage.Name = "SaveImage";
-            this.SaveImage.Size = new System.Drawing.Size(168, 63);
+            this.SaveImage.Size = new System.Drawing.Size(149, 50);
             this.SaveImage.TabIndex = 6;
             this.SaveImage.Text = "Guardar Imagen";
             this.SaveImage.UseVisualStyleBackColor = true;
@@ -113,15 +117,16 @@
             // 
             // HistogramBoxGeneral
             // 
-            this.HistogramBoxGeneral.Location = new System.Drawing.Point(544, 186);
+            this.HistogramBoxGeneral.Location = new System.Drawing.Point(484, 149);
+            this.HistogramBoxGeneral.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HistogramBoxGeneral.Name = "HistogramBoxGeneral";
-            this.HistogramBoxGeneral.Size = new System.Drawing.Size(225, 177);
+            this.HistogramBoxGeneral.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxGeneral.TabIndex = 7;
             this.HistogramBoxGeneral.TabStop = false;
             // 
             // ImageController
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.SaveImage);
@@ -131,8 +136,9 @@
             this.Controls.Add(this.UploadImage);
             this.Controls.Add(this.HistogramBoxRed);
             this.Controls.Add(this.ImageBox);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ImageController";
-            this.Size = new System.Drawing.Size(1005, 500);
+            this.Size = new System.Drawing.Size(893, 400);
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).EndInit();
