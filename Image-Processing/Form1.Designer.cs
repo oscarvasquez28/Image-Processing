@@ -58,6 +58,8 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.AjustarGammaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FiltroTermicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,7 +105,9 @@
             this.PapelRaspadoToolStripMenuItem,
             this.FiltroEspejoToolStripMenuItem,
             this.ContrasteDinamicoToolStripMenuItem,
-            this.PosterizarToolStripMenuItem});
+            this.PosterizarToolStripMenuItem,
+            this.AjustarGammaToolStripMenuItem,
+            this.FiltroTermicoToolStripMenuItem});
             this.filtrosToolStripMenuItem.Name = "filtrosToolStripMenuItem";
             this.filtrosToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
             this.filtrosToolStripMenuItem.Text = "Filtros";
@@ -332,6 +336,20 @@
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
             // 
+            // AjustarGammaToolStripMenuItem
+            // 
+            this.AjustarGammaToolStripMenuItem.Name = "AjustarGammaToolStripMenuItem";
+            this.AjustarGammaToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.AjustarGammaToolStripMenuItem.Text = "Ajustar Gamma";
+            this.AjustarGammaToolStripMenuItem.Click += new System.EventHandler(this.AjustarGammaToolStripMenuItem_Click);
+            // 
+            // FiltroTermicoToolStripMenuItem
+            // 
+            this.FiltroTermicoToolStripMenuItem.Name = "FiltroTermicoToolStripMenuItem";
+            this.FiltroTermicoToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.FiltroTermicoToolStripMenuItem.Text = "Filtro Termico";
+            this.FiltroTermicoToolStripMenuItem.Click += new System.EventHandler(this.FiltroTermicoToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -396,6 +414,8 @@
         private System.Windows.Forms.ToolStripMenuItem FiltroEspejoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContrasteDinamicoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PosterizarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AjustarGammaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FiltroTermicoToolStripMenuItem;
     }
 }
 

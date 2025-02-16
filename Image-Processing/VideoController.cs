@@ -29,7 +29,9 @@ namespace Image_Processing
             ColoracionAleatoria,
             Cristalizado,
             PapelRaspado,
-            Espejo
+            Espejo,
+            Gamma,
+            Termico
         }
 
         private int ActiveFilter = 0;
@@ -81,6 +83,12 @@ namespace Image_Processing
                     break;
                 case (int)TipoFiltro.Espejo:
                     AplicarFiltroEspejo();
+                    break;
+                case (int)TipoFiltro.Gamma:
+                    AplicarFiltroAjusteGamma();
+                    break;
+                case (int)TipoFiltro.Termico:
+                    AplicarFiltroTermico();
                     break;
                 default:
                     break;
@@ -336,11 +344,66 @@ namespace Image_Processing
             _frame = img.Mat;
         }
 
+        private int Clamp(int value, int min, int max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
 
         public void AplicarFiltroDesenfoqueGaussiano()
         {
+            if (_frame.IsEmpty)
+            {
+                MessageBox.Show("No hay video cargado.");
+                return;
+            }
 
+            var img = _frame.ToImage<Bgr, byte>();
+            var result = img.CopyBlank();
+
+            // Kernel Gaussiano 5x5
+            double[,] kernel = {
+                { 1, 4, 7, 4, 1 },
+                { 4, 16, 26, 16, 4 },
+                { 7, 26, 41, 26, 7 },
+                { 4, 16, 26, 16, 4 },
+                { 1, 4, 7, 4, 1 }
+            };
+            double kernelSum = 273.0;
+
+            for (int y = 2; y < img.Height - 2; y++)
+            {
+                for (int x = 2; x < img.Width - 2; x++)
+                {
+                    double r = 0, g = 0, b = 0;
+
+                    for (int ky = -2; ky <= 2; ky++)
+                    {
+                        for (int kx = -2; kx <= 2; kx++)
+                        {
+                            var pixel = img[y + ky, x + kx];
+                            double weight = kernel[ky + 2, kx + 2];
+
+                            r += pixel.Red * weight;
+                            g += pixel.Green * weight;
+                            b += pixel.Blue * weight;
+                        }
+                    }
+
+                    int finalR = Clamp((int)(r / kernelSum), 0, 255);
+                    int finalG = Clamp((int)(g / kernelSum), 0, 255);
+                    int finalB = Clamp((int)(b / kernelSum), 0, 255);
+
+                    result[y, x] = new Bgr(finalB, finalG, finalR);
+                }
+            }
+
+            _frame = result.Mat;
         }
+
+
+
 
         public byte ClampToByte(double value)
         {
@@ -396,7 +459,6 @@ namespace Image_Processing
             _frame = result.Mat;
         }
 
-
         public void AplicarFiltroUmbral()
         {
             if (_frame.IsEmpty)
@@ -405,28 +467,108 @@ namespace Image_Processing
                 return;
             }
 
-            var img = _frame.ToImage<Bgr, byte>();
-            var width = img.Width;
-            var height = img.Height;
-            byte umbral = 128; // Umbral de blanco y negro
+            int umbral = 128; // Valor fijo del umbral
 
-            var result = new Image<Bgr, byte>(width, height);
+            // Convertir el fotograma actual a imagen en escala de grises
+            var img = _frame.ToImage<Bgr, byte>().Convert<Gray, byte>();
 
-            for (int y = 0; y < height; y++)
+            // Recorrer cada píxel de la imagen
+            for (int y = 0; y < img.Height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < img.Width; x++)
+                {
+                    // Obtener el valor de intensidad del píxel (escala de grises)
+                    byte pixelIntensity = (byte)img[y, x].Intensity;  // Conversión explícita
+
+                    // Convertir el valor de intensidad a blanco (255) o negro (0) según el umbral
+                    byte result = pixelIntensity >= umbral ? (byte)255 : (byte)0;
+
+                    // Asignamos el valor resultante al píxel
+                    img[y, x] = new Gray(result);
+                }
+            }
+
+            // Actualizar el fotograma con el resultado del filtro de umbral
+            _frame = img.Mat;
+        }
+
+
+        public void AplicarFiltroAjusteGamma()
+        {
+            if (_frame.IsEmpty)
+            {
+                MessageBox.Show("No hay video cargado.");
+                return;
+            }
+
+            // Definir el valor gamma dentro de la función
+            double gamma = 0.5; // Puedes ajustar este valor para modificar el efecto
+
+            // Convertir el fotograma actual a imagen Bgr
+            var img = _frame.ToImage<Bgr, byte>();
+
+            // Recorrer cada píxel y aplicar la corrección gamma
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int x = 0; x < img.Width; x++)
                 {
                     var color = img[y, x];
-                    byte gray = (byte)(0.299 * color.Red + 0.587 * color.Green + 0.114 * color.Blue); // Convertir a escala de grises
-                    byte value = (gray > umbral) ? (byte)255 : (byte)0;
-                    result[y, x] = new Bgr(value, value, value);
+
+                    // Aplicar la fórmula de corrección gamma a cada componente de color
+                    color.Red = (byte)(255 * Math.Pow(color.Red / 255.0, gamma));
+                    color.Green = (byte)(255 * Math.Pow(color.Green / 255.0, gamma));
+                    color.Blue = (byte)(255 * Math.Pow(color.Blue / 255.0, gamma));
+
+                    img[y, x] = color; // Asignamos el nuevo color
+                }
+            }
+
+            // Reemplazamos el fotograma original con el resultado modificado
+            _frame = img.Mat;
+        }
+        private double ClampTermico(double value, double min, double max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+        public void AplicarFiltroTermico()
+        {
+            if (_frame.IsEmpty)
+            {
+                MessageBox.Show("No hay video cargado.");
+                return;
+            }
+
+            var img = _frame.ToImage<Bgr, byte>();
+            var result = img.CopyBlank();
+
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int x = 0; x < img.Width; x++)
+                {
+                    var color = img[y, x];
+
+                    // Convertir a escala de grises (intensidad)
+                    double intensidad = 0.299 * color.Red + 0.587 * color.Green + 0.114 * color.Blue;
+                    intensidad = ClampTermico(intensidad, 0, 255);
+
+                    Bgr thermalColor = ObtenerColorTermico(intensidad);
+                    result[y, x] = thermalColor;
                 }
             }
 
             _frame = result.Mat;
         }
 
-
+        // Función para asignar un color térmico basado en la intensidad
+        private Bgr ObtenerColorTermico(double intensidad)
+        {
+            if (intensidad < 64) return new Bgr(255, 0, 0);         // Rojo intenso
+            if (intensidad < 128) return new Bgr(255, 165, 0);      // Naranja
+            if (intensidad < 192) return new Bgr(255, 255, 0);      // Amarillo
+            return new Bgr(0, 0, 255);                              // Azul frío
+        }
 
 
 

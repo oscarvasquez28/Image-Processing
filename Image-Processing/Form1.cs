@@ -123,7 +123,7 @@ namespace Image_Processing
             int umbral = 150;
             AplicarFiltroAEtiqueta(
                 imageController => () => imageController.AplicarFiltroUmbral(umbral),
-                videoController => () => videoController.setActiveFilter(12)
+                videoController => () => videoController.setActiveFilter(6)
             );
         }
 
@@ -179,6 +179,22 @@ namespace Image_Processing
             AplicarFiltroAEtiqueta(
                 imageController => imageController.AplicarFiltroPosterizar,
                 videoController => () => videoController.setActiveFilter(7)
+            );
+        }
+
+        private void AjustarGammaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroPosterizar,
+                videoController => () => videoController.setActiveFilter(14)
+            );
+        }
+
+        private void FiltroTermicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroPosterizar,
+                videoController => () => videoController.setActiveFilter(15)
             );
         }
     }
