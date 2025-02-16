@@ -305,7 +305,6 @@ namespace Image_Processing
             // Reemplazamos el fotograma original con la versión en blanco y negro
             _frame = img.Mat; // Actualizamos _frame con la versión modificada
         }
-
         public void AplicarFiltroAltoContraste()
         {
             if (_frame.IsEmpty)
@@ -315,79 +314,37 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
+
+            // Recorrer cada píxel y ajustar el contraste
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
                 {
                     var color = img[y, x];
-                    int red = Math.Min(255, (int)(color.Red * 2.0)); // Aumentamos el contraste más fuerte
-                    int green = Math.Min(255, (int)(color.Green * 2.0));
-                    int blue = Math.Min(255, (int)(color.Blue * 2.0));
-                    img[y, x] = new Bgr(red, green, blue);
+                    // Aumentar contraste multiplicando los valores de los canales por un factor
+                    int factor = 2; // Puedes ajustar este valor para cambiar el nivel de contraste
+                    var highContrastColor = new Bgr(
+                        Math.Min(255, color.Red * factor),
+                        Math.Min(255, color.Green * factor),
+                        Math.Min(255, color.Blue * factor)
+                    );
+                    img[y, x] = highContrastColor; // Asignamos el color con alto contraste
                 }
             }
+
+            // Actualizamos el fotograma con la imagen de alto contraste
             _frame = img.Mat;
         }
 
+
         public void AplicarFiltroDesenfoqueGaussiano()
         {
-            if (_frame.IsEmpty)
-            {
-                MessageBox.Show("No hay video cargado.");
-                return;
-            }
 
-            var img = _frame.ToImage<Bgr, byte>();
-            int kernelSize = 5; // Tamaño del kernel
+        }
 
-            // Creamos un filtro gaussiano simple
-            double[,] kernel = {
-        { 1,  4,  6,  4, 1 },
-        { 4, 16, 24, 16, 4 },
-        { 6, 24, 36, 24, 6 },
-        { 4, 16, 24, 16, 4 },
-        { 1,  4,  6,  4, 1 }
-    };
-
-            // Normalizamos el kernel
-            double kernelSum = kernel.Cast<double>().Sum();
-            for (int i = 0; i < kernel.GetLength(0); i++)
-            {
-                for (int j = 0; j < kernel.GetLength(1); j++)
-                {
-                    kernel[i, j] /= kernelSum;
-                }
-            }
-
-            var result = img.Clone();
-
-            // Aplicamos el filtro gaussiano manualmente
-            for (int y = kernelSize / 2; y < img.Height - kernelSize / 2; y++)
-            {
-                for (int x = kernelSize / 2; x < img.Width - kernelSize / 2; x++)
-                {
-                    double red = 0, green = 0, blue = 0;
-
-                    for (int ky = -kernelSize / 2; ky <= kernelSize / 2; ky++)
-                    {
-                        for (int kx = -kernelSize / 2; kx <= kernelSize / 2; kx++)
-                        {
-                            var color = img[y + ky, x + kx];
-                            red += color.Red * kernel[ky + kernelSize / 2, kx + kernelSize / 2];
-                            green += color.Green * kernel[ky + kernelSize / 2, kx + kernelSize / 2];
-                            blue += color.Blue * kernel[ky + kernelSize / 2, kx + kernelSize / 2];
-                        }
-                    }
-
-                    result[y, x] = new Bgr(
-                        Math.Min(255, Math.Max(0, (int)red)),
-                        Math.Min(255, Math.Max(0, (int)green)),
-                        Math.Min(255, Math.Max(0, (int)blue))
-                    );
-                }
-            }
-
-            _frame = result.Mat;
+        public byte ClampToByte(double value)
+        {
+            return (byte)Math.Max(0, Math.Min(255, value));
         }
 
         public void AplicarFiltroResaltarBordes()
@@ -399,39 +356,40 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            var grayImg = img.Convert<Gray, byte>();
+            var width = img.Width;
+            var height = img.Height;
 
-            int[,] sobelX = {
-        { -1, 0, 1 },
-        { -2, 0, 2 },
-        { -1, 0, 1 }
-    };
+            var result = new Image<Bgr, byte>(width, height);
 
-            int[,] sobelY = {
-        { -1, -2, -1 },
-        {  0,  0,  0 },
-        {  1,  2,  1 }
-    };
-
-            var result = grayImg.Clone();
-
-            for (int y = 1; y < grayImg.Height - 1; y++)
+            // Kernel para detección de bordes
+            int[,] kernel = new int[3, 3]
             {
-                for (int x = 1; x < grayImg.Width - 1; x++)
-                {
-                    double gradientX = 0, gradientY = 0;
+        { -1, -1, -1 },
+        { -1,  8, -1 },
+        { -1, -1, -1 }
+            };
 
+            for (int y = 1; y < height - 1; y++)
+            {
+                for (int x = 1; x < width - 1; x++)
+                {
+                    double blue = 0, green = 0, red = 0;
                     for (int ky = -1; ky <= 1; ky++)
                     {
                         for (int kx = -1; kx <= 1; kx++)
                         {
-                            gradientX += grayImg[y + ky, x + kx].Intensity * sobelX[ky + 1, kx + 1];
-                            gradientY += grayImg[y + ky, x + kx].Intensity * sobelY[ky + 1, kx + 1];
+                            var color = img[y + ky, x + kx];
+                            blue += color.Blue * kernel[ky + 1, kx + 1];
+                            green += color.Green * kernel[ky + 1, kx + 1];
+                            red += color.Red * kernel[ky + 1, kx + 1];
                         }
                     }
 
-                    double gradientMagnitude = Math.Sqrt(gradientX * gradientX + gradientY * gradientY);
-                    result[y, x] = new Gray(Math.Min(255, Math.Max(0, gradientMagnitude)));
+                    result[y, x] = new Bgr(
+                        ClampToByte(red),
+                        ClampToByte(green),
+                        ClampToByte(blue)
+                    );
                 }
             }
 
@@ -448,20 +406,26 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            var grayImg = img.Convert<Gray, byte>();
+            var width = img.Width;
+            var height = img.Height;
+            byte umbral = 128; // Umbral de blanco y negro
 
-            for (int y = 0; y < grayImg.Height; y++)
+            var result = new Image<Bgr, byte>(width, height);
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < grayImg.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    double pixel = grayImg[y, x].Intensity;  // Obtener el valor de intensidad como double
-                    byte pixelByte = (byte)Math.Min(255, Math.Max(0, pixel)); // Convertir a byte y asegurarse de que esté en el rango [0, 255]
-                    grayImg[y, x] = (pixelByte > 100) ? new Gray(255) : new Gray(0);  // Asignar nuevo valor de intensidad
+                    var color = img[y, x];
+                    byte gray = (byte)(0.299 * color.Red + 0.587 * color.Green + 0.114 * color.Blue); // Convertir a escala de grises
+                    byte value = (gray > umbral) ? (byte)255 : (byte)0;
+                    result[y, x] = new Bgr(value, value, value);
                 }
             }
 
-            _frame = grayImg.Mat;
+            _frame = result.Mat;
         }
+
 
 
 
@@ -475,19 +439,29 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            for (int y = 0; y < img.Height; y++)
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
+
+            int niveles = 4; // Número de niveles de colores
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
                     var color = img[y, x];
-                    int red = (int)((color.Red / 85) * 85);  // Convertir a int
-                    int green = (int)((color.Green / 85) * 85);  // Convertir a int
-                    int blue = (int)((color.Blue / 85) * 85);  // Convertir a int
-                    img[y, x] = new Bgr(red, green, blue);
+                    result[y, x] = new Bgr(
+                        (byte)(color.Blue / niveles * niveles),
+                        (byte)(color.Green / niveles * niveles),
+                        (byte)(color.Red / niveles * niveles)
+                    );
                 }
             }
-            _frame = img.Mat;
+
+            _frame = result.Mat;
         }
+
 
         public void AplicarFiltroContrasteDinamico()
         {
@@ -498,19 +472,37 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            for (int y = 0; y < img.Height; y++)
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
+
+            double min = 255, max = 0;
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
                     var color = img[y, x];
-                    int red = Math.Min(255, (int)(color.Red * 1.5));
-                    int green = Math.Min(255, (int)(color.Green * 1.5));
-                    int blue = Math.Min(255, (int)(color.Blue * 1.5));
-                    img[y, x] = new Bgr(red, green, blue);
+                    double gray = 0.299 * color.Red + 0.587 * color.Green + 0.114 * color.Blue;
+                    min = Math.Min(min, gray);
+                    max = Math.Max(max, gray);
                 }
             }
-            _frame = img.Mat;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    var color = img[y, x];
+                    double gray = 0.299 * color.Red + 0.587 * color.Green + 0.114 * color.Blue;
+                    double normalized = (gray - min) / (max - min) * 255;
+                    result[y, x] = new Bgr(normalized, normalized, normalized);
+                }
+            }
+
+            _frame = result.Mat;
         }
+
         public void AplicarFiltroLenteDeGlobo()
         {
             if (_frame.IsEmpty)
@@ -519,33 +511,42 @@ namespace Image_Processing
                 return;
             }
 
-            var img = _frame.ToImage<Bgr, byte>(); // Convertimos la imagen a un objeto Bgr de EmguCV
-            var resized = new Image<Bgr, byte>(img.Width / 2, img.Height / 2); // Imagen reducida
-            var expanded = new Image<Bgr, byte>(img.Width, img.Height); // Imagen expandida
+            var img = _frame.ToImage<Bgr, byte>();
+            var width = img.Width;
+            var height = img.Height;
 
-            // Reducción de la imagen (tomamos cada segundo píxel)
-            for (int y = 0; y < img.Height / 2; y++)
+            var result = new Image<Bgr, byte>(width, height);
+
+            int centroX = width / 2;
+            int centroY = height / 2;
+            double radio = Math.Min(width, height) / 4;
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width / 2; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    resized[y, x] = img[y * 2, x * 2];
+                    double distancia = Math.Sqrt(Math.Pow(x - centroX, 2) + Math.Pow(y - centroY, 2));
+                    if (distancia < radio)
+                    {
+                        double factor = 1 - (distancia / radio);
+                        int newX = centroX + (int)((x - centroX) * factor);
+                        int newY = centroY + (int)((y - centroY) * factor);
+
+                        newX = Math.Max(0, Math.Min(newX, width - 1));
+                        newY = Math.Max(0, Math.Min(newY, height - 1));
+
+                        result[y, x] = img[newY, newX];
+                    }
+                    else
+                    {
+                        result[y, x] = img[y, x];
+                    }
                 }
             }
 
-            // Expansión de la imagen (duplicamos los píxeles para rellenar el tamaño original)
-            for (int y = 0; y < img.Height; y++)
-            {
-                for (int x = 0; x < img.Width; x++)
-                {
-                    // Interpolamos (simplemente copiamos el píxel más cercano)
-                    int srcY = y / 2;
-                    int srcX = x / 2;
-                    expanded[y, x] = resized[srcY, srcX];
-                }
-            }
-
-            _frame = expanded.Mat; // Asignamos la imagen expandida a _frame
+            _frame = result.Mat;
         }
+
 
 
         public void AplicarFiltroColoracionAleatoria()
@@ -576,21 +577,30 @@ namespace Image_Processing
                 return;
             }
 
-            var img = _frame.ToImage<Bgr, byte>(); // Convertimos la imagen a un objeto Bgr de EmguCV.
-            int newWidth = img.Width / 2;
-            int newHeight = img.Height / 2;
+            var img = _frame.ToImage<Bgr, byte>();
+            var width = img.Width;
+            var height = img.Height;
 
-            // Reducción de la imagen (PyrDown)
-            var reducedImg = new Image<Bgr, byte>(newWidth, newHeight);
-            CvInvoke.PyrDown(img, reducedImg); // Usamos PyrDown para reducir la imagen
+            var result = new Image<Bgr, byte>(width, height);
+            Random rand = new Random();
 
-            // Ampliación de la imagen (PyrUp)
-            var expandedImg = new Image<Bgr, byte>(img.Width, img.Height);
-            CvInvoke.PyrUp(reducedImg, expandedImg); // Usamos PyrUp para ampliar la imagen
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int offsetX = rand.Next(-5, 6);
+                    int offsetY = rand.Next(-5, 6);
 
-            // Asignamos la imagen ampliada a _frame
-            _frame = expandedImg.Mat;
+                    int newX = Math.Max(0, Math.Min(x + offsetX, width - 1));
+                    int newY = Math.Max(0, Math.Min(y + offsetY, height - 1));
+
+                    result[y, x] = img[newY, newX];
+                }
+            }
+
+            _frame = result.Mat;
         }
+
 
 
 
@@ -604,20 +614,29 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            for (int y = 0; y < img.Height; y++)
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
+            Random rand = new Random();
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
+                    int noise = rand.Next(-20, 21);
                     var color = img[y, x];
-                    img[y, x] = new Bgr(
-                        Math.Min(255, color.Red + 7),
-                        Math.Min(255, color.Green + 7),
-                        Math.Min(255, color.Blue + 7)
+                    result[y, x] = new Bgr(
+                        ClampToByte(color.Blue + noise),
+                        ClampToByte(color.Green + noise),
+                        ClampToByte(color.Red + noise)
                     );
                 }
             }
-            _frame = img.Mat;
+
+            _frame = result.Mat;
         }
+
         public void AplicarFiltroEspejo()
         {
             if (_frame.IsEmpty)
@@ -627,17 +646,22 @@ namespace Image_Processing
             }
 
             var img = _frame.ToImage<Bgr, byte>();
-            for (int y = 0; y < img.Height; y++)
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width / 2; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    var temp = img[y, x];
-                    img[y, x] = img[y, img.Width - 1 - x];
-                    img[y, img.Width - 1 - x] = temp;
+                    result[y, width - x - 1] = img[y, x];
                 }
             }
-            _frame = img.Mat;
+
+            _frame = result.Mat;
         }
+
 
         public void ResetearFiltros()
         {
