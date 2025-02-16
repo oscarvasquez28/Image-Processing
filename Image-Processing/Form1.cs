@@ -9,6 +9,8 @@ namespace Image_Processing
         private ImageController imageController;
         private VideoController videoController;
         private CameraController cameraController;
+        private bool isVideoControlVisible = false;
+
 
         public Form1()
         {
@@ -25,10 +27,21 @@ namespace Image_Processing
 
         private void CargarControl(UserControl control)
         {
-            panel1.Controls.Clear();  // Limpia el panel antes de agregar un nuevo control
-            control.Dock = DockStyle.Fill;  // Ajusta el tamaño del control al panel
+            panel1.Controls.Clear();
+            control.Dock = DockStyle.Fill;
             panel1.Controls.Add(control);
+
+            // Establece el estado de visibilidad explícitamente
+            if (control == videoController)
+            {
+                isVideoControlVisible = true;
+            }
+            else
+            {
+                isVideoControlVisible = false;
+            }
         }
+
 
         private void Image_Click(object sender, EventArgs e)
         {
@@ -47,164 +60,126 @@ namespace Image_Processing
             // Usando la instancia previamente creada de CameraController
             CargarControl(cameraController);
         }
-
-        private void BlancoYNegroToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AplicarFiltroAEtiqueta(Func<ImageController, Action> filtroImagen, Func<VideoController, Action> filtroVideo)
         {
-            // Verificamos que ImageController tenga una imagen cargada
-            if (imageController != null)
+            if (!isVideoControlVisible)  // Si ImageController está visible
             {
-                // Llamamos al método para aplicar el filtro blanco y negro
-                imageController.AplicarFiltroBlancoYNegro();
+                filtroImagen(imageController)();  // Aplicamos el filtro a la imagen
+            }
+            else if (isVideoControlVisible)  // Si VideoController está visible
+            {
+                filtroVideo(videoController)();  // Aplicamos el filtro al video
             }
             else
             {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
+                MessageBox.Show("No hay imagen ni video cargados.");
             }
+        }
+
+
+        private void BlancoYNegroToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroBlancoYNegro,
+                videoController => () => videoController.setActiveFilter(1)
+            );
         }
 
         private void InvertirColoresToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroNegativo();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroNegativo,
+                videoController => () => videoController.setActiveFilter(2)
+            );
         }
+
 
         private void AltoContrasteToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroAltoContraste();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroAltoContraste,
+                videoController => () => videoController.setActiveFilter(3)
+            );
         }
 
-        private void DesenfoqueGaussianoToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void DesenfoqueGaussianoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarDesenfoqueGaussiano();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarDesenfoqueGaussiano,
+                videoController => () => videoController.setActiveFilter(4)
+            );
         }
 
         private void ResaltarBordesToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroBordes();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroBordes,
+                videoController => () => videoController.setActiveFilter(5)
+            );
         }
 
         private void UmbralToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            // Supón que tienes un formulario o cuadro de texto para ingresar el valor del umbral
-            int umbral = 128; // Aquí podrías obtener este valor dinámicamente
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroUmbral(umbral);
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
-        }
-        private void PosterizarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroPosterizar();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            int umbral = 150;
+            AplicarFiltroAEtiqueta(
+                imageController => () => imageController.AplicarFiltroUmbral(umbral),
+                videoController => () => videoController.setActiveFilter(12)
+            );
         }
 
-        private void ContrasteDinamicoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LenteDeGloboToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroContrasteDinámico();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroLenteDeGlobo,
+                videoController => () => videoController.setActiveFilter(9)
+            );
         }
 
-        private void LenteDeGloboToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ColoracionAleatoriaToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroLenteDeGlobo();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroColoracionAleatoria,
+                videoController => () => videoController.setActiveFilter(10)
+            );
         }
 
-        private void ColoracionAleatoriaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CristalizadoToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroColoracionAleatoria();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroCristalizado,
+                videoController => () => videoController.setActiveFilter(11)
+            );
         }
 
-        private void CristalizadoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PapelRaspadoToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroCristalizado();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroPapelRaspado,
+                videoController => () => videoController.setActiveFilter(12)
+            );
+        }
+        private void FiltroEspejoToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            AplicarFiltroAEtiqueta(
+                 imageController => () => imageController.AplicarFiltroEspejo(true),
+                videoController => () => videoController.setActiveFilter(12)
+            );
         }
 
-        private void PapelRaspadoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ContrasteDinamicoToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroPapelRaspado();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroContrasteDinámico,
+                videoController => () => videoController.setActiveFilter(8)
+            );
         }
 
-        private void FiltroEspejoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PosterizarToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (imageController != null)
-            {
-                imageController.AplicarFiltroEspejo();
-            }
-            else
-            {
-                MessageBox.Show("No se ha cargado ninguna imagen.");
-            }
+            AplicarFiltroAEtiqueta(
+                imageController => imageController.AplicarFiltroPosterizar,
+                videoController => () => videoController.setActiveFilter(7)
+            );
         }
     }
 }

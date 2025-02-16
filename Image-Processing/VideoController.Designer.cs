@@ -34,7 +34,7 @@
             this.VideoBox = new System.Windows.Forms.PictureBox();
             this.PausaBtn = new System.Windows.Forms.Button();
             this.PlayBtn = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.ResetVideo = new System.Windows.Forms.Button();
             this.CargarVideoBtn = new System.Windows.Forms.Button();
             this.HistogramBoxGeneral = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).BeginInit();
@@ -105,15 +105,16 @@
             this.PlayBtn.UseVisualStyleBackColor = true;
             this.PlayBtn.Click += new System.EventHandler(this.PlayBtn_Click);
             // 
-            // button4
+            // ResetVideo
             // 
-            this.button4.Location = new System.Drawing.Point(543, 325);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(149, 50);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Reiniciar Filtros";
-            this.button4.UseVisualStyleBackColor = true;
+            this.ResetVideo.Location = new System.Drawing.Point(543, 325);
+            this.ResetVideo.Margin = new System.Windows.Forms.Padding(4);
+            this.ResetVideo.Name = "ResetVideo";
+            this.ResetVideo.Size = new System.Drawing.Size(149, 50);
+            this.ResetVideo.TabIndex = 7;
+            this.ResetVideo.Text = "Reiniciar Filtros";
+            this.ResetVideo.UseVisualStyleBackColor = true;
+            this.ResetVideo.Click += new System.EventHandler(this.ResetVideo_Click);
             // 
             // CargarVideoBtn
             // 
@@ -141,7 +142,7 @@
             this.AutoSize = true;
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.CargarVideoBtn);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.ResetVideo);
             this.Controls.Add(this.PlayBtn);
             this.Controls.Add(this.PausaBtn);
             this.Controls.Add(this.VideoBox);
@@ -168,7 +169,7 @@
         private System.Windows.Forms.PictureBox VideoBox;
         private System.Windows.Forms.Button PausaBtn;
         private System.Windows.Forms.Button PlayBtn;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button ResetVideo;
         private System.Windows.Forms.Button CargarVideoBtn;
         private System.Windows.Forms.PictureBox HistogramBoxGeneral;
     }
