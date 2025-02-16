@@ -300,12 +300,17 @@ namespace Image_Processing
         // Función para limitar los valores RGB entre 0 y 255
         private int Clamp(int value, int min, int max)
         {
-            return Math.Min(Math.Max(value, min), max);
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
         }
 
-        public void AplicarFiltroDesenfoqueGaussiano(ref Image<Bgr, byte> img)
+        private void AplicarFiltroDesenfoqueGaussiano(ref Image<Bgr, byte> img)
         {
+            // Crear una copia en blanco de la imagen de salida
             var result = img.CopyBlank();
+
+            // Kernel Gaussiano 5x5
             double[,] kernel = {
         { 1, 4, 7, 4, 1 },
         { 4, 16, 26, 16, 4 },
@@ -315,35 +320,45 @@ namespace Image_Processing
     };
             double kernelSum = 273.0;
 
+            // Aplicar el filtro Gaussiano a cada píxel
             for (int y = 2; y < img.Height - 2; y++)
             {
                 for (int x = 2; x < img.Width - 2; x++)
                 {
                     double r = 0, g = 0, b = 0;
 
+                    // Aplicar el kernel 5x5 a los píxeles alrededor
                     for (int ky = -2; ky <= 2; ky++)
                     {
                         for (int kx = -2; kx <= 2; kx++)
                         {
-                            var color = img[y + ky, x + kx];
+                            var pixel = img[y + ky, x + kx];
+
+                            // Obtener el peso del kernel
                             double weight = kernel[ky + 2, kx + 2];
 
-                            r += color.Red * weight;
-                            g += color.Green * weight;
-                            b += color.Blue * weight;
+                            // Sumar los valores de los canales RGB ponderados
+                            r += pixel.Red * weight;   // Red
+                            g += pixel.Green * weight; // Green
+                            b += pixel.Blue * weight;  // Blue
                         }
                     }
 
-                    result[y, x] = new Bgr(
-                        Clamp((int)(r / kernelSum), 0, 255),
-                        Clamp((int)(g / kernelSum), 0, 255),
-                        Clamp((int)(b / kernelSum), 0, 255)
-                    );
+                    // Aplicar la normalización y clamping
+                    int finalR = Clamp((int)(r / kernelSum), 0, 255);
+                    int finalG = Clamp((int)(g / kernelSum), 0, 255);
+                    int finalB = Clamp((int)(b / kernelSum), 0, 255);
+
+                    // Asignar el píxel procesado a la imagen de salida
+                    result[y, x] = new Bgr(finalB, finalG, finalR);
                 }
             }
 
+            // Actualizar la imagen original con el resultado
             img = result;
         }
+
+
         // Función para limitar valores térmicos
         private double ClampTermico(double value, double min, double max)
         {
@@ -391,38 +406,47 @@ namespace Image_Processing
         }
 
         // Función para limitar los valores entre 0 y 255 (para resaltar bordes)
-        private byte ClampToByte(double value)
+        public byte ClampToByte(double value)
         {
-            return (byte)Math.Min(Math.Max(value, 0), 255);
+            return (byte)Math.Max(0, Math.Min(255, value));
         }
+
         public void AplicarFiltroResaltarBordes(ref Image<Bgr, byte> img)
         {
             var width = img.Width;
             var height = img.Height;
+
             var result = new Image<Bgr, byte>(width, height);
 
-            int[,] kernel = new int[3, 3] {
+            // Kernel para detección de bordes
+            int[,] kernel = new int[3, 3]
+            {
         { -1, -1, -1 },
         { -1,  8, -1 },
         { -1, -1, -1 }
-    };
+            };
 
+            // Aplicar el kernel para resaltar bordes
             for (int y = 1; y < height - 1; y++)
             {
                 for (int x = 1; x < width - 1; x++)
                 {
                     double blue = 0, green = 0, red = 0;
+
+                    // Aplicar el filtro del kernel 3x3 a cada píxel
                     for (int ky = -1; ky <= 1; ky++)
                     {
                         for (int kx = -1; kx <= 1; kx++)
                         {
                             var color = img[y + ky, x + kx];
+
                             blue += color.Blue * kernel[ky + 1, kx + 1];
                             green += color.Green * kernel[ky + 1, kx + 1];
                             red += color.Red * kernel[ky + 1, kx + 1];
                         }
                     }
 
+                    // Asignar el nuevo color al píxel en el resultado
                     result[y, x] = new Bgr(
                         ClampToByte(red),
                         ClampToByte(green),
@@ -431,8 +455,10 @@ namespace Image_Processing
                 }
             }
 
+            // Actualizar la imagen original con el resultado
             img = result;
         }
+
 
         private void AplicarFiltroUmbral(ref Image<Bgr, byte> img)
         {
@@ -481,28 +507,45 @@ namespace Image_Processing
                 }
             }
         }
-        private void AplicarFiltroLenteDeGlobo(ref Image<Bgr, byte> img)
+        public void AplicarFiltroLenteDeGlobo(ref Image<Bgr, byte> img)
         {
-            int radio = 100; // Ajusta el radio de la lente
-            int centroX = img.Width / 2;
-            int centroY = img.Height / 2;
-            double factorDeIntensidad = 1.2;
+            var width = img.Width;
+            var height = img.Height;
 
-            for (int y = 0; y < img.Height; y++)
+            var result = new Image<Bgr, byte>(width, height);
+
+            int centroX = width / 2;
+            int centroY = height / 2;
+            double radio = Math.Min(width, height) / 2.5;
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
                     double distancia = Math.Sqrt(Math.Pow(x - centroX, 2) + Math.Pow(y - centroY, 2));
-                    double factor = Math.Min(1, factorDeIntensidad / (1 + distancia / radio));
+                    if (distancia < radio)
+                    {
+                        double factor = 1 - (distancia / radio);
+                        int newX = centroX + (int)((x - centroX) * factor);
+                        int newY = centroY + (int)((y - centroY) * factor);
 
-                    var color = img[y, x];
-                    byte r = (byte)Math.Min(255, color.Red * factor);
-                    byte g = (byte)Math.Min(255, color.Green * factor);
-                    byte b = (byte)Math.Min(255, color.Blue * factor);
-                    img[y, x] = new Bgr(r, g, b);
+                        // Asegurarse de que las nuevas coordenadas estén dentro de los límites de la imagen
+                        newX = Math.Max(0, Math.Min(newX, width - 1));
+                        newY = Math.Max(0, Math.Min(newY, height - 1));
+
+                        result[y, x] = img[newY, newX];
+                    }
+                    else
+                    {
+                        result[y, x] = img[y, x];
+                    }
                 }
             }
+
+            // Reemplazar la imagen original con el resultado modificado
+            img = result;
         }
+
         private void AplicarFiltroColoracionAleatoria(ref Image<Bgr, byte> img)
         {
             Random rand = new Random();
@@ -517,62 +560,82 @@ namespace Image_Processing
                 }
             }
         }
-        private void AplicarFiltroCristalizado(ref Image<Bgr, byte> img)
+        public void AplicarFiltroCristalizado(ref Image<Bgr, byte> img)
         {
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
             Random rand = new Random();
-            int step = 5; // Tamaño del bloque de cristal
-            for (int y = 0; y < img.Height; y += step)
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x += step)
+                for (int x = 0; x < width; x++)
                 {
-                    int offsetX = rand.Next(-2, 3);
-                    int offsetY = rand.Next(-2, 3);
-                    int newX = Math.Min(img.Width - 1, Math.Max(0, x + offsetX));
-                    int newY = Math.Min(img.Height - 1, Math.Max(0, y + offsetY));
-                    img[y, x] = img[newY, newX];
+                    int offsetX = rand.Next(-5, 6); // Desplazamiento aleatorio horizontal
+                    int offsetY = rand.Next(-5, 6); // Desplazamiento aleatorio vertical
+
+                    // Calcular las nuevas coordenadas dentro de los límites de la imagen
+                    int newX = Math.Max(0, Math.Min(x + offsetX, width - 1));
+                    int newY = Math.Max(0, Math.Min(y + offsetY, height - 1));
+
+                    result[y, x] = img[newY, newX]; // Asignar el pixel desplazado al resultado
                 }
             }
+
+            // Reemplazar la imagen original con el resultado modificado
+            img = result;
         }
-        private void AplicarFiltroPapelRaspado(ref Image<Bgr, byte> img)
+
+        public void AplicarFiltroPapelRaspado(ref Image<Bgr, byte> img)
         {
+            var width = img.Width;
+            var height = img.Height;
+
+            var result = new Image<Bgr, byte>(width, height);
             Random rand = new Random();
-            for (int y = 0; y < img.Height; y++)
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < img.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    // Convertimos explícitamente a int para evitar problemas de tipo
-                    int r = (int)img[y, x].Red + rand.Next(-50, 50);  // Ajusta el rango de la aleatoriedad
-                    int g = (int)img[y, x].Green + rand.Next(-50, 50);
-                    int b = (int)img[y, x].Blue + rand.Next(-50, 50);
-
-                    // Aseguramos que los valores estén dentro del rango de 0 a 255
-                    r = Math.Min(255, Math.Max(0, r));
-                    g = Math.Min(255, Math.Max(0, g));
-                    b = Math.Min(255, Math.Max(0, b));
-
-                    // Asignamos el color final a la imagen
-                    img[y, x] = new Bgr((byte)r, (byte)g, (byte)b);
+                    int noise = rand.Next(-20, 21); // Generar ruido aleatorio entre -20 y 20
+                    var color = img[y, x];
+                    result[y, x] = new Bgr(
+                        ClampToByte(color.Blue + noise),
+                        ClampToByte(color.Green + noise),
+                        ClampToByte(color.Red + noise)
+                    );
                 }
             }
+
+            // Reemplazar la imagen original con el resultado modificado
+            img = result;
         }
+
 
         public void AplicarFiltroAjusteGamma(ref Image<Bgr, byte> img)
         {
-            double gamma = 0.5;
+            // Definir el valor gamma dentro de la función
+            double gamma = 0.5; // Puedes ajustar este valor para modificar el efecto
 
+            // Recorrer cada píxel y aplicar la corrección gamma
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
                 {
                     var color = img[y, x];
-                    img[y, x] = new Bgr(
-                        (byte)(255 * Math.Pow(color.Red / 255.0, gamma)),
-                        (byte)(255 * Math.Pow(color.Green / 255.0, gamma)),
-                        (byte)(255 * Math.Pow(color.Blue / 255.0, gamma))
-                    );
+
+                    // Aplicar la fórmula de corrección gamma a cada componente de color
+                    color.Red = (byte)(255 * Math.Pow(color.Red / 255.0, gamma));
+                    color.Green = (byte)(255 * Math.Pow(color.Green / 255.0, gamma));
+                    color.Blue = (byte)(255 * Math.Pow(color.Blue / 255.0, gamma));
+
+                    img[y, x] = color; // Asignamos el nuevo color
                 }
             }
         }
+
 
         public void ResetearFiltros()
         {
@@ -627,6 +690,38 @@ namespace Image_Processing
         private void ResetFilters_Click(object sender, EventArgs e)
         {
             ResetearFiltros();
+        }
+
+        private void TakePhotoBtn_Click(object sender, EventArgs e)
+        {
+            if (_capture != null && _capture.Ptr != IntPtr.Zero)
+            {
+                using (Mat frame = new Mat())
+                {
+                    _capture.Retrieve(frame);
+
+                    // Convertir el fotograma a una imagen de Bgr
+                    var img = frame.ToImage<Bgr, byte>();
+
+                    // Aplicar el filtro seleccionado
+                    executeFilter(ref img);
+
+                    // Guardar la imagen capturada en un archivo
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                    saveFileDialog.Title = "Guardar imagen capturada";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        img.Save(saveFileDialog.FileName);
+                        MessageBox.Show("Imagen guardada exitosamente.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("La cámara no está encendida.");
+            }
         }
     }
 }

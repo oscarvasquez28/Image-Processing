@@ -34,7 +34,6 @@
             this.HistogramBoxBlue = new System.Windows.Forms.PictureBox();
             this.HistogramBoxRed = new System.Windows.Forms.PictureBox();
             this.TakePhotoBtn = new System.Windows.Forms.Button();
-            this.ObtenerHistogramaBtn = new System.Windows.Forms.Button();
             this.ResetFilters = new System.Windows.Forms.Button();
             this.HistogramBoxGeneral = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.CameraBox)).BeginInit();
@@ -102,20 +101,11 @@
             this.TakePhotoBtn.TabIndex = 6;
             this.TakePhotoBtn.Text = "Tomar foto";
             this.TakePhotoBtn.UseVisualStyleBackColor = true;
-            // 
-            // ObtenerHistogramaBtn
-            // 
-            this.ObtenerHistogramaBtn.Location = new System.Drawing.Point(747, 321);
-            this.ObtenerHistogramaBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.ObtenerHistogramaBtn.Name = "ObtenerHistogramaBtn";
-            this.ObtenerHistogramaBtn.Size = new System.Drawing.Size(149, 50);
-            this.ObtenerHistogramaBtn.TabIndex = 7;
-            this.ObtenerHistogramaBtn.Text = "Obtener Histograma";
-            this.ObtenerHistogramaBtn.UseVisualStyleBackColor = true;
+            this.TakePhotoBtn.Click += new System.EventHandler(this.TakePhotoBtn_Click);
             // 
             // ResetFilters
             // 
-            this.ResetFilters.Location = new System.Drawing.Point(545, 321);
+            this.ResetFilters.Location = new System.Drawing.Point(634, 321);
             this.ResetFilters.Name = "ResetFilters";
             this.ResetFilters.Size = new System.Drawing.Size(149, 50);
             this.ResetFilters.TabIndex = 8;
@@ -137,7 +127,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.ResetFilters);
-            this.Controls.Add(this.ObtenerHistogramaBtn);
             this.Controls.Add(this.TakePhotoBtn);
             this.Controls.Add(this.HistogramBoxRed);
             this.Controls.Add(this.HistogramBoxBlue);
@@ -164,7 +153,6 @@
         private System.Windows.Forms.PictureBox HistogramBoxBlue;
         private System.Windows.Forms.PictureBox HistogramBoxRed;
         private System.Windows.Forms.Button TakePhotoBtn;
-        private System.Windows.Forms.Button ObtenerHistogramaBtn;
         private System.Windows.Forms.Button ResetFilters;
         private System.Windows.Forms.PictureBox HistogramBoxGeneral;
     }

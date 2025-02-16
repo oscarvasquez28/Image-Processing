@@ -173,7 +173,7 @@ namespace Image_Processing
             AplicarFiltroAEtiqueta(
                 imageController => imageController.AplicarFiltroCristalizado,
                 videoController => () => videoController.setActiveFilter(11),
-                cameraController => () => cameraController.setActiveFilter(1)
+                cameraController => () => cameraController.setActiveFilter(11)
             );
         }
 
@@ -208,7 +208,7 @@ namespace Image_Processing
             AplicarFiltroAEtiqueta(
                 imageController => imageController.AplicarFiltroPosterizar,
                 videoController => () => videoController.setActiveFilter(7),
-                cameraController => () => cameraController.setActiveFilter(1)
+                cameraController => () => cameraController.setActiveFilter(7)
             );
         }
 
