@@ -557,7 +557,7 @@ namespace Image_Processing
 
             int centroX = width / 2;
             int centroY = height / 2;
-            double radio = Math.Min(width, height) / 2.5;
+            double radio = Math.Min(width, height) / 2.0;
 
             for (int y = 0; y < height; y++)
             {
@@ -846,12 +846,60 @@ namespace Image_Processing
             // Calcular los valores de los cuadrantes L, A, B
             RgbToLab(color, out double L, out double A, out double B);
 
-            // Mostrar los valores en un MessageBox (o puedes usar otros métodos para mostrar los valores)
-            MessageBox.Show($"L: {L}\nA: {A}\nB: {B}");
+            // Convertir BGR a Color (revirtiendo el orden de los componentes BGR a RGB)
+            Color colorMostrar = Color.FromArgb(
+                ClampCuadrante(Convert.ToInt32(color.Red), 0, 255),
+                ClampCuadrante(Convert.ToInt32(color.Green), 0, 255),
+                ClampCuadrante(Convert.ToInt32(color.Blue), 0, 255)
+            );
+
+            // Determinar el cuadrante en el que se encuentra el color
+            string cuadrante = ObtenerCuadrante(L, A, B);
+
+            // Crear y mostrar el formulario flotante
+            ColorValuesForm colorValuesForm = new ColorValuesForm();
+            colorValuesForm.UpdateColorValues(
+                Convert.ToInt32(Math.Round(L)),
+                Convert.ToInt32(Math.Round(A)),
+                Convert.ToInt32(Math.Round(B)),
+                colorMostrar,
+                cuadrante // Mostrar el cuadrante
+            );
+            colorValuesForm.Show(); // Muestra el formulario flotante
+        }
+
+        // Método para obtener el cuadrante basado en los valores de L, A, B
+        private string ObtenerCuadrante(double L, double A, double B)
+        {
+            if (L >= 50 && A >= 0 && B >= 0)
+                return "I: Cálido";
+            else if (L >= 50 && A < 0 && B >= 0)
+                return "II: Frío";
+            else if (L >= 50 && A < 0 && B < 0)
+                return "III: Frío";
+            else if (L >= 50 && A >= 0 && B < 0)
+                return "IV: Cálido";
+            else if (L < 50 && A >= 0 && B >= 0)
+                return "V: Cálido";
+            else if (L < 50 && A < 0 && B >= 0)
+                return "VI: Frío";
+            else if (L < 50 && A < 0 && B < 0)
+                return "VII: Frío";
+            else if (L < 50 && A >= 0 && B < 0)
+                return "VIII: Cálido";
+            else
+                return "Cuadrante Desconocido";
         }
 
 
-
-
+        // Función Clamp para limitar un valor dentro de un rango específico
+        private int ClampCuadrante(int value, int min, int max)
+        {
+            if (value < min)
+                return min;
+            if (value > max)
+                return max;
+            return value;
+        }
     }
 }

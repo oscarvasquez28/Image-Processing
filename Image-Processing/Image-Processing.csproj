@@ -55,6 +55,12 @@
     <Compile Include="CameraController.Designer.cs">
       <DependentUpon>CameraController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ColorValuesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorValuesForm.Designer.cs">
+      <DependentUpon>ColorValuesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
     </Compile>
     <EmbeddedResource Include="CameraController.resx">
       <DependentUpon>CameraController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorValuesForm.resx">
+      <DependentUpon>ColorValuesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
