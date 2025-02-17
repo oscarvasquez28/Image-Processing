@@ -612,6 +612,60 @@ namespace Image_Processing
         }
 
 
+        public void AplicarFiltroTermico()
+        {
+            if (ImageBox.Image == null)
+            {
+                MessageBox.Show("No hay imagen cargada.");
+                return;
+            }
+
+            Bitmap imagen = new Bitmap(ImageBox.Image);
+
+            for (int y = 0; y < imagen.Height; y++)
+            {
+                for (int x = 0; x < imagen.Width; x++)
+                {
+                    Color pixel = imagen.GetPixel(x, y);
+
+                    // Convertir a escala de grises (intensidad)
+                    int intensidad = (int)(pixel.R * 0.3 + pixel.G * 0.59 + pixel.B * 0.11);
+
+                    // Asignar color térmico según la intensidad
+                    Color colorTermico = ObtenerColorTermico(intensidad);
+                    imagen.SetPixel(x, y, colorTermico);
+                }
+            }
+
+            ImageBox.Image = imagen;
+            GenerarHistogramaRGB();
+        }
+
+        /// <summary>
+        /// Asigna un color térmico basado en la intensidad (0-255).
+        /// Gradiente: Azul → Cian → Verde → Amarillo → Rojo
+        /// </summary>
+        private Color ObtenerColorTermico(int intensidad)
+        {
+            if (intensidad < 64) // Azul a Cian
+            {
+                return Color.FromArgb(0, intensidad * 4, 255);
+            }
+            else if (intensidad < 128) // Cian a Verde
+            {
+                return Color.FromArgb(0, 255, 255 - ((intensidad - 64) * 4));
+            }
+            else if (intensidad < 192) // Verde a Amarillo
+            {
+                return Color.FromArgb((intensidad - 128) * 4, 255, 0);
+            }
+            else // Amarillo a Rojo
+            {
+                return Color.FromArgb(255, 255 - ((intensidad - 192) * 4), 0);
+            }
+        }
+
+
 
         // Evento para restaurar la imagen al estado original
         private void ResetImage_Click(object sender, EventArgs e)
