@@ -133,5 +133,53 @@
       <Version>4.10.0.5680</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelectColorBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TakePhotobtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CameraOffBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CameraOnBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GuardarBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReiniciarBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PauseBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlayBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CargarBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackgroundProcesamiento.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BtnImagen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BtnVideo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BtnCamara.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CargarBtn1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SubeArchivo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EnciendeCamaraBg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

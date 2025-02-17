@@ -28,39 +28,93 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HistogramBoxRed = new System.Windows.Forms.PictureBox();
-            this.HistogramBoxGreen = new System.Windows.Forms.PictureBox();
-            this.HistogramBoxBlue = new System.Windows.Forms.PictureBox();
-            this.VideoBox = new System.Windows.Forms.PictureBox();
-            this.PausaBtn = new System.Windows.Forms.Button();
-            this.PlayBtn = new System.Windows.Forms.Button();
-            this.ResetVideo = new System.Windows.Forms.Button();
-            this.CargarVideoBtn = new System.Windows.Forms.Button();
             this.HistogramBoxGeneral = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxBlue)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).BeginInit();
+            this.CargarVideoBtn = new System.Windows.Forms.Button();
+            this.ResetVideo = new System.Windows.Forms.Button();
+            this.PlayBtn = new System.Windows.Forms.Button();
+            this.PausaBtn = new System.Windows.Forms.Button();
+            this.VideoBox = new System.Windows.Forms.PictureBox();
+            this.HistogramBoxBlue = new System.Windows.Forms.PictureBox();
+            this.HistogramBoxGreen = new System.Windows.Forms.PictureBox();
+            this.HistogramBoxRed = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGeneral)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxBlue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).BeginInit();
             this.SuspendLayout();
             // 
-            // HistogramBoxRed
+            // HistogramBoxGeneral
             // 
-            this.HistogramBoxRed.Location = new System.Drawing.Point(517, 0);
-            this.HistogramBoxRed.Margin = new System.Windows.Forms.Padding(4);
-            this.HistogramBoxRed.Name = "HistogramBoxRed";
-            this.HistogramBoxRed.Size = new System.Drawing.Size(200, 142);
-            this.HistogramBoxRed.TabIndex = 0;
-            this.HistogramBoxRed.TabStop = false;
+            this.HistogramBoxGeneral.Location = new System.Drawing.Point(517, 148);
+            this.HistogramBoxGeneral.Name = "HistogramBoxGeneral";
+            this.HistogramBoxGeneral.Size = new System.Drawing.Size(200, 142);
+            this.HistogramBoxGeneral.TabIndex = 9;
+            this.HistogramBoxGeneral.TabStop = false;
             // 
-            // HistogramBoxGreen
+            // CargarVideoBtn
             // 
-            this.HistogramBoxGreen.Location = new System.Drawing.Point(725, 0);
-            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4);
-            this.HistogramBoxGreen.Name = "HistogramBoxGreen";
-            this.HistogramBoxGreen.Size = new System.Drawing.Size(200, 142);
-            this.HistogramBoxGreen.TabIndex = 1;
-            this.HistogramBoxGreen.TabStop = false;
+            this.CargarVideoBtn.BackgroundImage = global::Image_Processing.Properties.Resources.CargarBtn;
+            this.CargarVideoBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CargarVideoBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CargarVideoBtn.Location = new System.Drawing.Point(319, 325);
+            this.CargarVideoBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.CargarVideoBtn.Name = "CargarVideoBtn";
+            this.CargarVideoBtn.Size = new System.Drawing.Size(149, 50);
+            this.CargarVideoBtn.TabIndex = 8;
+            this.CargarVideoBtn.UseVisualStyleBackColor = true;
+            this.CargarVideoBtn.Click += new System.EventHandler(this.CargarVideoBtn_Click);
+            // 
+            // ResetVideo
+            // 
+            this.ResetVideo.BackgroundImage = global::Image_Processing.Properties.Resources.ReiniciarBtn;
+            this.ResetVideo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ResetVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ResetVideo.Location = new System.Drawing.Point(543, 325);
+            this.ResetVideo.Margin = new System.Windows.Forms.Padding(4);
+            this.ResetVideo.Name = "ResetVideo";
+            this.ResetVideo.Size = new System.Drawing.Size(149, 50);
+            this.ResetVideo.TabIndex = 7;
+            this.ResetVideo.UseVisualStyleBackColor = true;
+            this.ResetVideo.Click += new System.EventHandler(this.ResetVideo_Click);
+            // 
+            // PlayBtn
+            // 
+            this.PlayBtn.BackgroundImage = global::Image_Processing.Properties.Resources.PlayBtn;
+            this.PlayBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PlayBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PlayBtn.Location = new System.Drawing.Point(161, 325);
+            this.PlayBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PlayBtn.Name = "PlayBtn";
+            this.PlayBtn.Size = new System.Drawing.Size(149, 50);
+            this.PlayBtn.TabIndex = 5;
+            this.PlayBtn.UseVisualStyleBackColor = true;
+            this.PlayBtn.Click += new System.EventHandler(this.PlayBtn_Click);
+            // 
+            // PausaBtn
+            // 
+            this.PausaBtn.BackgroundImage = global::Image_Processing.Properties.Resources.PauseBtn;
+            this.PausaBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PausaBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PausaBtn.Location = new System.Drawing.Point(4, 325);
+            this.PausaBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.PausaBtn.Name = "PausaBtn";
+            this.PausaBtn.Size = new System.Drawing.Size(149, 50);
+            this.PausaBtn.TabIndex = 4;
+            this.PausaBtn.UseVisualStyleBackColor = true;
+            this.PausaBtn.Click += new System.EventHandler(this.PausaBtn_Click);
+            // 
+            // VideoBox
+            // 
+            this.VideoBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.VideoBox.BackgroundImage = global::Image_Processing.Properties.Resources.SubeArchivo;
+            this.VideoBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.VideoBox.Location = new System.Drawing.Point(0, 0);
+            this.VideoBox.Margin = new System.Windows.Forms.Padding(4);
+            this.VideoBox.Name = "VideoBox";
+            this.VideoBox.Size = new System.Drawing.Size(468, 290);
+            this.VideoBox.TabIndex = 3;
+            this.VideoBox.TabStop = false;
             // 
             // HistogramBoxBlue
             // 
@@ -71,75 +125,30 @@
             this.HistogramBoxBlue.TabIndex = 2;
             this.HistogramBoxBlue.TabStop = false;
             // 
-            // VideoBox
+            // HistogramBoxGreen
             // 
-            this.VideoBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.VideoBox.BackgroundImage = global::Image_Processing.Properties.Resources.error_404;
-            this.VideoBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.VideoBox.Location = new System.Drawing.Point(0, 0);
-            this.VideoBox.Margin = new System.Windows.Forms.Padding(4);
-            this.VideoBox.Name = "VideoBox";
-            this.VideoBox.Size = new System.Drawing.Size(468, 290);
-            this.VideoBox.TabIndex = 3;
-            this.VideoBox.TabStop = false;
+            this.HistogramBoxGreen.Location = new System.Drawing.Point(725, 0);
+            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4);
+            this.HistogramBoxGreen.Name = "HistogramBoxGreen";
+            this.HistogramBoxGreen.Size = new System.Drawing.Size(200, 142);
+            this.HistogramBoxGreen.TabIndex = 1;
+            this.HistogramBoxGreen.TabStop = false;
             // 
-            // PausaBtn
+            // HistogramBoxRed
             // 
-            this.PausaBtn.Location = new System.Drawing.Point(4, 325);
-            this.PausaBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.PausaBtn.Name = "PausaBtn";
-            this.PausaBtn.Size = new System.Drawing.Size(149, 50);
-            this.PausaBtn.TabIndex = 4;
-            this.PausaBtn.Text = "Pausa";
-            this.PausaBtn.UseVisualStyleBackColor = true;
-            this.PausaBtn.Click += new System.EventHandler(this.PausaBtn_Click);
-            // 
-            // PlayBtn
-            // 
-            this.PlayBtn.Location = new System.Drawing.Point(161, 325);
-            this.PlayBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.PlayBtn.Name = "PlayBtn";
-            this.PlayBtn.Size = new System.Drawing.Size(149, 50);
-            this.PlayBtn.TabIndex = 5;
-            this.PlayBtn.Text = "Play";
-            this.PlayBtn.UseVisualStyleBackColor = true;
-            this.PlayBtn.Click += new System.EventHandler(this.PlayBtn_Click);
-            // 
-            // ResetVideo
-            // 
-            this.ResetVideo.Location = new System.Drawing.Point(543, 325);
-            this.ResetVideo.Margin = new System.Windows.Forms.Padding(4);
-            this.ResetVideo.Name = "ResetVideo";
-            this.ResetVideo.Size = new System.Drawing.Size(149, 50);
-            this.ResetVideo.TabIndex = 7;
-            this.ResetVideo.Text = "Reiniciar Filtros";
-            this.ResetVideo.UseVisualStyleBackColor = true;
-            this.ResetVideo.Click += new System.EventHandler(this.ResetVideo_Click);
-            // 
-            // CargarVideoBtn
-            // 
-            this.CargarVideoBtn.Location = new System.Drawing.Point(319, 325);
-            this.CargarVideoBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.CargarVideoBtn.Name = "CargarVideoBtn";
-            this.CargarVideoBtn.Size = new System.Drawing.Size(149, 50);
-            this.CargarVideoBtn.TabIndex = 8;
-            this.CargarVideoBtn.Text = "Cargar Video";
-            this.CargarVideoBtn.UseVisualStyleBackColor = true;
-            this.CargarVideoBtn.Click += new System.EventHandler(this.CargarVideoBtn_Click);
-            // 
-            // HistogramBoxGeneral
-            // 
-            this.HistogramBoxGeneral.Location = new System.Drawing.Point(517, 148);
-            this.HistogramBoxGeneral.Name = "HistogramBoxGeneral";
-            this.HistogramBoxGeneral.Size = new System.Drawing.Size(200, 142);
-            this.HistogramBoxGeneral.TabIndex = 9;
-            this.HistogramBoxGeneral.TabStop = false;
+            this.HistogramBoxRed.Location = new System.Drawing.Point(517, 0);
+            this.HistogramBoxRed.Margin = new System.Windows.Forms.Padding(4);
+            this.HistogramBoxRed.Name = "HistogramBoxRed";
+            this.HistogramBoxRed.Size = new System.Drawing.Size(200, 142);
+            this.HistogramBoxRed.TabIndex = 0;
+            this.HistogramBoxRed.TabStop = false;
             // 
             // VideoController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.CargarVideoBtn);
             this.Controls.Add(this.ResetVideo);
@@ -152,11 +161,11 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "VideoController";
             this.Size = new System.Drawing.Size(929, 414);
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxBlue)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGeneral)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxBlue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxRed)).EndInit();
             this.ResumeLayout(false);
 
         }

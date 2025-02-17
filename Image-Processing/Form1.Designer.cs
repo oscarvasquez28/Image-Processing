@@ -45,6 +45,8 @@
             this.FiltroEspejoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContrasteDinamicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PosterizarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AjustarGammaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FiltroTermicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Image = new System.Windows.Forms.Button();
             this.Camera = new System.Windows.Forms.Button();
             this.Video = new System.Windows.Forms.Button();
@@ -58,13 +60,12 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.AjustarGammaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FiltroTermicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Location = new System.Drawing.Point(25, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
@@ -203,37 +204,60 @@
             this.PosterizarToolStripMenuItem.Text = "Posterizar";
             this.PosterizarToolStripMenuItem.Click += new System.EventHandler(this.PosterizarToolStripMenuItem_Click_1);
             // 
+            // AjustarGammaToolStripMenuItem
+            // 
+            this.AjustarGammaToolStripMenuItem.Name = "AjustarGammaToolStripMenuItem";
+            this.AjustarGammaToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.AjustarGammaToolStripMenuItem.Text = "Ajustar Gamma";
+            this.AjustarGammaToolStripMenuItem.Click += new System.EventHandler(this.AjustarGammaToolStripMenuItem_Click);
+            // 
+            // FiltroTermicoToolStripMenuItem
+            // 
+            this.FiltroTermicoToolStripMenuItem.Name = "FiltroTermicoToolStripMenuItem";
+            this.FiltroTermicoToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.FiltroTermicoToolStripMenuItem.Text = "Filtro Termico";
+            this.FiltroTermicoToolStripMenuItem.Click += new System.EventHandler(this.FiltroTermicoToolStripMenuItem_Click);
+            // 
             // Image
             // 
+            this.Image.BackColor = System.Drawing.Color.Transparent;
+            this.Image.BackgroundImage = global::Image_Processing.Properties.Resources.BtnCamara;
+            this.Image.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Image.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Image.Location = new System.Drawing.Point(29, 478);
             this.Image.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Image.Name = "Image";
             this.Image.Size = new System.Drawing.Size(149, 50);
             this.Image.TabIndex = 2;
-            this.Image.Text = "Imagen";
-            this.Image.UseVisualStyleBackColor = true;
+            this.Image.UseVisualStyleBackColor = false;
             this.Image.Click += new System.EventHandler(this.Image_Click);
             // 
             // Camera
             // 
+            this.Camera.BackColor = System.Drawing.Color.Transparent;
+            this.Camera.BackgroundImage = global::Image_Processing.Properties.Resources.BtnCamara;
+            this.Camera.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Camera.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Camera.Location = new System.Drawing.Point(729, 478);
             this.Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Camera.Name = "Camera";
             this.Camera.Size = new System.Drawing.Size(149, 50);
             this.Camera.TabIndex = 4;
-            this.Camera.Text = "Cámara";
-            this.Camera.UseVisualStyleBackColor = true;
+            this.Camera.UseVisualStyleBackColor = false;
             this.Camera.Click += new System.EventHandler(this.Camera_Click);
             // 
             // Video
             // 
+            this.Video.BackColor = System.Drawing.Color.Transparent;
+            this.Video.BackgroundImage = global::Image_Processing.Properties.Resources.BtnVideo;
+            this.Video.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Video.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Video.Location = new System.Drawing.Point(404, 478);
             this.Video.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Video.Name = "Video";
             this.Video.Size = new System.Drawing.Size(149, 50);
             this.Video.TabIndex = 3;
-            this.Video.Text = "Video";
-            this.Video.UseVisualStyleBackColor = true;
+            this.Video.UseVisualStyleBackColor = false;
             this.Video.Click += new System.EventHandler(this.Video_Click);
             // 
             // FiltroBlancoNegro
@@ -336,24 +360,11 @@
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
             // 
-            // AjustarGammaToolStripMenuItem
-            // 
-            this.AjustarGammaToolStripMenuItem.Name = "AjustarGammaToolStripMenuItem";
-            this.AjustarGammaToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
-            this.AjustarGammaToolStripMenuItem.Text = "Ajustar Gamma";
-            this.AjustarGammaToolStripMenuItem.Click += new System.EventHandler(this.AjustarGammaToolStripMenuItem_Click);
-            // 
-            // FiltroTermicoToolStripMenuItem
-            // 
-            this.FiltroTermicoToolStripMenuItem.Name = "FiltroTermicoToolStripMenuItem";
-            this.FiltroTermicoToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
-            this.FiltroTermicoToolStripMenuItem.Text = "Filtro Termico";
-            this.FiltroTermicoToolStripMenuItem.Click += new System.EventHandler(this.FiltroTermicoToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Image_Processing.Properties.Resources.BackgroundProcesamiento;
             this.ClientSize = new System.Drawing.Size(981, 553);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);

@@ -107,21 +107,21 @@ namespace Image_Processing
         {
             if (_cameraOn)
             {
-                // Apagar cámara
                 _capture.Stop();
                 _capture.Dispose();
                 CameraBox.Image = null;
                 _cameraOn = false;
-                OnOffCameraBtn.Text = "Encender Cámara";
+                OnOffCameraBtn.BackgroundImage = Properties.Resources.CameraOnBtn;
+                OnOffCameraBtn.BackgroundImageLayout = ImageLayout.Stretch;
             }
             else
             {
-                // Encender cámara
                 _capture = new VideoCapture(0); // 0 para cámara predeterminada
                 _capture.ImageGrabbed += ProcessFrame;
                 _capture.Start();
                 _cameraOn = true;
-                OnOffCameraBtn.Text = "Apagar Cámara";
+                OnOffCameraBtn.BackgroundImage = Properties.Resources.CameraOffBtn;
+                OnOffCameraBtn.BackgroundImageLayout = ImageLayout.Stretch;
             }
         }
 

@@ -45,7 +45,7 @@
             // 
             // ImageBox
             // 
-            this.ImageBox.BackgroundImage = global::Image_Processing.Properties.Resources.error_404;
+            this.ImageBox.BackgroundImage = global::Image_Processing.Properties.Resources.SubeArchivo;
             this.ImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBox.Location = new System.Drawing.Point(0, 0);
             this.ImageBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -66,30 +66,34 @@
             // 
             // UploadImage
             // 
+            this.UploadImage.BackgroundImage = global::Image_Processing.Properties.Resources.CargarBtn;
+            this.UploadImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.UploadImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UploadImage.Location = new System.Drawing.Point(117, 327);
             this.UploadImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UploadImage.Name = "UploadImage";
             this.UploadImage.Size = new System.Drawing.Size(149, 50);
             this.UploadImage.TabIndex = 2;
-            this.UploadImage.Text = "Cargar Imagen";
             this.UploadImage.UseVisualStyleBackColor = true;
             this.UploadImage.Click += new System.EventHandler(this.UploadImage_Click);
             // 
             // ResetImage
             // 
+            this.ResetImage.BackgroundImage = global::Image_Processing.Properties.Resources.ReiniciarBtn;
+            this.ResetImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ResetImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ResetImage.Location = new System.Drawing.Point(596, 327);
             this.ResetImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ResetImage.Name = "ResetImage";
             this.ResetImage.Size = new System.Drawing.Size(149, 50);
             this.ResetImage.TabIndex = 3;
-            this.ResetImage.Text = "Reiniciar Imagen";
             this.ResetImage.UseVisualStyleBackColor = true;
             this.ResetImage.Click += new System.EventHandler(this.ResetImage_Click);
             // 
             // HistogramBoxGreen
             // 
             this.HistogramBoxGreen.Location = new System.Drawing.Point(690, 0);
-            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.HistogramBoxGreen.Margin = new System.Windows.Forms.Padding(4);
             this.HistogramBoxGreen.Name = "HistogramBoxGreen";
             this.HistogramBoxGreen.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxGreen.TabIndex = 4;
@@ -98,7 +102,7 @@
             // HistogramBoxBlue
             // 
             this.HistogramBoxBlue.Location = new System.Drawing.Point(690, 149);
-            this.HistogramBoxBlue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.HistogramBoxBlue.Margin = new System.Windows.Forms.Padding(4);
             this.HistogramBoxBlue.Name = "HistogramBoxBlue";
             this.HistogramBoxBlue.Size = new System.Drawing.Size(200, 142);
             this.HistogramBoxBlue.TabIndex = 5;
@@ -106,12 +110,14 @@
             // 
             // SaveImage
             // 
+            this.SaveImage.BackgroundImage = global::Image_Processing.Properties.Resources.GuardarBtn;
+            this.SaveImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SaveImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SaveImage.Location = new System.Drawing.Point(357, 327);
-            this.SaveImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SaveImage.Margin = new System.Windows.Forms.Padding(4);
             this.SaveImage.Name = "SaveImage";
             this.SaveImage.Size = new System.Drawing.Size(149, 50);
             this.SaveImage.TabIndex = 6;
-            this.SaveImage.Text = "Guardar Imagen";
             this.SaveImage.UseVisualStyleBackColor = true;
             this.SaveImage.Click += new System.EventHandler(this.SaveImage_Click);
             // 
@@ -128,6 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.SaveImage);
             this.Controls.Add(this.HistogramBoxBlue);

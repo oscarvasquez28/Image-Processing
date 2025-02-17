@@ -118,7 +118,55 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="GuardarBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GuardarBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="error-404" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\error-404.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SubeArchivo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SubeArchivo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BackgroundProcesamiento" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BackgroundProcesamiento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CameraOnBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CameraOnBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CameraOffBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CameraOffBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlayBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlayBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReiniciarBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReiniciarBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TakePhotobtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TakePhotobtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PauseBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PauseBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectColorBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectColorBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CargarBtn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CargarBtn1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CargarBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CargarBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BtnImagen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BtnImagen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BtnVideo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BtnVideo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BtnCamara" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BtnCamara.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnciendeCamaraBg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnciendeCamaraBg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
