@@ -36,6 +36,8 @@
             this.TakePhotoBtn = new System.Windows.Forms.Button();
             this.ResetFilters = new System.Windows.Forms.Button();
             this.HistogramBoxGeneral = new System.Windows.Forms.PictureBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.ColorPickerBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CameraBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramBoxBlue)).BeginInit();
@@ -64,6 +66,7 @@
             this.CameraBox.Size = new System.Drawing.Size(468, 290);
             this.CameraBox.TabIndex = 2;
             this.CameraBox.TabStop = false;
+            this.CameraBox.Click += new System.EventHandler(this.CameraBox_Click);
             // 
             // HistogramBoxGreen
             // 
@@ -105,7 +108,7 @@
             // 
             // ResetFilters
             // 
-            this.ResetFilters.Location = new System.Drawing.Point(634, 321);
+            this.ResetFilters.Location = new System.Drawing.Point(753, 321);
             this.ResetFilters.Name = "ResetFilters";
             this.ResetFilters.Size = new System.Drawing.Size(149, 50);
             this.ResetFilters.TabIndex = 8;
@@ -121,10 +124,21 @@
             this.HistogramBoxGeneral.TabIndex = 9;
             this.HistogramBoxGeneral.TabStop = false;
             // 
+            // ColorPickerBtn
+            // 
+            this.ColorPickerBtn.Location = new System.Drawing.Point(551, 321);
+            this.ColorPickerBtn.Name = "ColorPickerBtn";
+            this.ColorPickerBtn.Size = new System.Drawing.Size(149, 50);
+            this.ColorPickerBtn.TabIndex = 10;
+            this.ColorPickerBtn.Text = "Seleccionar Color";
+            this.ColorPickerBtn.UseVisualStyleBackColor = true;
+            this.ColorPickerBtn.Click += new System.EventHandler(this.ColorPickerBtn_Click);
+            // 
             // CameraController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ColorPickerBtn);
             this.Controls.Add(this.HistogramBoxGeneral);
             this.Controls.Add(this.ResetFilters);
             this.Controls.Add(this.TakePhotoBtn);
@@ -155,5 +169,7 @@
         private System.Windows.Forms.Button TakePhotoBtn;
         private System.Windows.Forms.Button ResetFilters;
         private System.Windows.Forms.PictureBox HistogramBoxGeneral;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button ColorPickerBtn;
     }
 }

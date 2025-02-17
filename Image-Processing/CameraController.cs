@@ -12,6 +12,11 @@ namespace Image_Processing
         private VideoCapture _capture;
         private bool _cameraOn = false;
         private Image<Bgr, byte> imagenOriginal; // Para guardar la imagen original
+        private Bgr? selectedColor = null; // Color seleccionado, null por defecto
+        private bool ColorSeleecionar = false; // Bandera para activar la selección de color
+        private double colorTolerance = 100.0; // Tolerancia para la comparación de colores
+
+
         public enum TipoFiltro
         {
             Ninguno,
@@ -140,6 +145,12 @@ namespace Image_Processing
                     // Aplicar el filtro seleccionado
                     executeFilter(ref img);
 
+                    // Aplicar el filtro de color seleccionado si hay un color seleccionado
+                    if (selectedColor.HasValue && ColorSeleecionar)
+                    {
+                        AplicarFiltroColorSeleccionado(ref img);
+                    }
+
                     // Redimensiona el cuadro del video para ajustarse al tamaño del PictureBox
                     var resizedFrame = img.Resize(CameraBox.Width, CameraBox.Height, Emgu.CV.CvEnum.Inter.Linear);
 
@@ -151,6 +162,36 @@ namespace Image_Processing
                 }
             }
         }
+
+        private void AplicarFiltroColorSeleccionado(ref Image<Bgr, byte> img)
+        {
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int x = 0; x < img.Width; x++)
+                {
+                    var color = img[y, x];
+                    if (IsColorSimilar(color, selectedColor.Value, colorTolerance))
+                    {
+                        img[y, x] = selectedColor.Value;
+                    }
+                    else
+                    {
+                        img[y, x] = new Bgr(255, 255, 255); // Pintar de blanco
+                    }
+                }
+            }
+        }
+
+        private bool IsColorSimilar(Bgr color1, Bgr color2, double tolerance)
+        {
+            double diff = Math.Sqrt(
+                Math.Pow(color1.Blue - color2.Blue, 2) +
+                Math.Pow(color1.Green - color2.Green, 2) +
+                Math.Pow(color1.Red - color2.Red, 2)
+            );
+            return diff <= tolerance;
+        }
+
 
         private void GenerarHistogramaRGB(Image<Bgr, byte> img)
         {
@@ -690,6 +731,7 @@ namespace Image_Processing
         private void ResetFilters_Click(object sender, EventArgs e)
         {
             ResetearFiltros();
+            ColorSeleecionar = false;
         }
 
         private void TakePhotoBtn_Click(object sender, EventArgs e)
@@ -723,5 +765,93 @@ namespace Image_Processing
                 MessageBox.Show("La cámara no está encendida.");
             }
         }
+        private void ColorPickerBtn_Click(object sender, EventArgs e)
+        {
+            // Crea una instancia de ColorDialog
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                // Abre el cuadro de diálogo para seleccionar un color
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Obtener el color seleccionado
+                    Color color = colorDialog.Color;
+                    selectedColor = new Bgr(color.B, color.G, color.R); // Convertir a Bgr
+                    ColorSeleecionar = true; // Activar la bandera de selección de color
+                }
+            }
+        }
+
+        private void CameraBox_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs me = (MouseEventArgs)e;
+            int mouseX = me.X;
+            int mouseY = me.Y;
+
+            // Asegúrate de que la imagen no sea nula
+            if (CameraBox.Image != null)
+            {
+                // Convertir la imagen del PictureBox a Bitmap
+                Bitmap bitmap = new Bitmap(CameraBox.Image);
+
+                // Obtener el valor del píxel en la posición del mouse
+                if (mouseX >= 0 && mouseX < bitmap.Width && mouseY >= 0 && mouseY < bitmap.Height)
+                {
+                    Color pixelColor = bitmap.GetPixel(mouseX, mouseY);
+
+                    // Convertir el color del píxel a Bgr
+                    Bgr bgrColor = new Bgr(pixelColor.B, pixelColor.G, pixelColor.R);
+
+                    // Evaluar los valores de intensidad y cuadrantes L, A, B
+                    EvaluarPixel(bgrColor);
+                }
+            }
+        }
+
+        private void RgbToLab(Bgr color, out double L, out double A, out double B)
+        {
+            // Convertir de BGR a XYZ
+            double r = color.Red / 255.0;
+            double g = color.Green / 255.0;
+            double b = color.Blue / 255.0;
+
+            r = (r > 0.04045) ? Math.Pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+            g = (g > 0.04045) ? Math.Pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+            b = (b > 0.04045) ? Math.Pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+
+            r *= 100;
+            g *= 100;
+            b *= 100;
+
+            // Convertir a XYZ
+            double x = r * 0.4124 + g * 0.3576 + b * 0.1805;
+            double y = r * 0.2126 + g * 0.7152 + b * 0.0722;
+            double z = r * 0.0193 + g * 0.1192 + b * 0.9505;
+
+            // Convertir de XYZ a CIELAB
+            x /= 95.047;
+            y /= 100.000;
+            z /= 108.883;
+
+            x = (x > 0.008856) ? Math.Pow(x, 1.0 / 3.0) : (7.787 * x) + (16.0 / 116.0);
+            y = (y > 0.008856) ? Math.Pow(y, 1.0 / 3.0) : (7.787 * y) + (16.0 / 116.0);
+            z = (z > 0.008856) ? Math.Pow(z, 1.0 / 3.0) : (7.787 * z) + (16.0 / 116.0);
+
+            L = (116 * y) - 16;
+            A = 500 * (x - y);
+            B = 200 * (y - z);
+        }
+
+        private void EvaluarPixel(Bgr color)
+        {
+            // Calcular los valores de los cuadrantes L, A, B
+            RgbToLab(color, out double L, out double A, out double B);
+
+            // Mostrar los valores en un MessageBox (o puedes usar otros métodos para mostrar los valores)
+            MessageBox.Show($"L: {L}\nA: {A}\nB: {B}");
+        }
+
+
+
+
     }
 }

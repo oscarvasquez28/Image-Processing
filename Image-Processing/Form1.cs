@@ -223,11 +223,7 @@ namespace Image_Processing
 
         private void FiltroTermicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AplicarFiltroAEtiqueta(
-                imageController => imageController.AplicarFiltroPosterizar,
-                videoController => () => videoController.setActiveFilter(15),
-                cameraController => () => cameraController.setActiveFilter(15)
-            );
+
         }
     }
 }
