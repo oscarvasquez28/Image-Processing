@@ -32,6 +32,7 @@ namespace Image_Processing
 
                         // Guardar una copia de la imagen original
                         imagenOriginal = new Bitmap(ImageBox.Image);
+                        ImageBox2.Image = imagenOriginal;
 
                         // Generar histograma de la imagen cargada
                         GenerarHistogramaRGB();

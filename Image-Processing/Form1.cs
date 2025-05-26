@@ -17,7 +17,7 @@ namespace Image_Processing
         {
             InitializeComponent();
 
-            // Aquí puedes inicializar los controladores
+            // inicializar los controladores
             imageController = new ImageController();
             videoController = new VideoController();
             cameraController = new CameraController();
